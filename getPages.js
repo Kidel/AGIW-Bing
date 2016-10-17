@@ -13,6 +13,7 @@ function savePage(data, filename) {
             console.log("FS ERROR for file " + filename + ": " + e.message);
         }
         else console.log("OK FS file " + filename + "written correctly");
+        data = null;
     });
 }
 
@@ -36,6 +37,7 @@ lineReader.on('line', function (line) {
                 savePage(body, filename);
             }
             else console.log("HTTP ERROR: " + ((typeof response != 'undefined')? response.statusCode:'?') + " --- " + error + " on url " + url);
+            response = null;
         })
     }
     catch(e) {
