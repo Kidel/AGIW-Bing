@@ -8,7 +8,6 @@ var lineReader = require('readline').createInterface({
 
 var attempts = [0, 1, 2];
 
-var failed = "";
 
 lineReader.on('line', function (line) {
     var code = line.split("\t")[0] * 1;
@@ -25,27 +24,21 @@ lineReader.on('line', function (line) {
                 if(!error) {
                     if(typeof body != 'undefined') {
                         var print = JSON.stringify(body.d.results, null, 4);
-                        console.log(code + " query " + query + " has given " + body.d.results.length + " results");
+                        //console.log(code + " query " + query + " has given " + body.d.results.length + " results");
                         fs.appendFile('output/results.txt', print, function (err) {
                             if (err) return console.log(err);
                         });
                     }
                     else {
-                        console.log(code + " query " + query + " has given no results");
-                        failed = failed + code + "\t" + query + "\n";
+                        //console.log(code + " query " + query + " has given no results");
+                        console.log(code + "\t" + query + "\n");
                     }
                 }
                 else {
-                    console.log(code + " query " + query + " has given error " + error);
-                    failed = failed + code + "\t" + query + "\n";
+                    //console.log(code + " query " + query + " has given error " + error);
+                    console.log(code + "\t" + query + "\n");
                 }
             });
         });
     }
-});
-
-lineReader.on('end', function () {
-    fs.appendFile('input/failedQueries.txt', failed, function (err) {
-        if (err) return console.log(err);
-    });
 });
