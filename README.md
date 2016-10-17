@@ -37,6 +37,7 @@ I suggest little steps of an interval of max 100 values, every time logging poss
  * If your given interval contains more the 1500 codes I recommend splitting it into 15 or more smaller intervals and run  bingSearch.js 15 times with at least 2 Bing Accounts (free API accounts only have 5000 free transactions, and to get 150 results the software needs to do 3 of them for each record, since the API is limited to 50 max results for 1 query).
  * Once you've run bingSearch.js as many times as you want with different intervals you should have a file called 'output/results.txt' with all different results (if you did everything correctly with no repetitions) and failed.txt that you can use as input (config.js -> filename) to try and get what you missed. 
  * As mentioned above, **if you fail all the requests in the current interval it means that you've reached your API limit or your request/minute limit**, so simply pause the work and try another day or in a few hours. If you still fail all the requests try with another API key **from a different account**. 
+ * failed.txt will have any query that has failed in bingSearch.js, meaning that you can rename it set it as input in config.js.
  * Finally run: 
  
  ```bash
@@ -55,5 +56,4 @@ I suggest little steps of an interval of max 100 values, every time logging poss
  ```
  
   (without the log file) if you want to check your progress on the terminal (don't be afraid if the first results are all errors, it's normal since the requests run all in parallel and errors are faster).
- * You'll have all the files you need in the output folder and in logsGet.txt (probably several thousands of html files and a csv file with your surname).
- * failed.txt will have any query that has failed in bingSearch.js, meaning that you can rename it set it as input in config.js.
+ * You'll have all the files you need in the output folder and in htmlFiles folder (probably several thousands of html files and a csv file with your surname).
