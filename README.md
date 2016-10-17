@@ -35,11 +35,11 @@ I suggest little steps of an interval of max 100 values, every time logging poss
  * As mentioned above, **if you fail all the requests in the current interval it means that you've reached your API limit or your request/minute limit**, so simply pause the work and try another day or in a few hours. If you still fail all the requests try with another API key **from a different account**. 
  * Finally run: 
  ```
- node getAndCsv.js > logsGet.txt
+ node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getAndCsv.js > logsGet.txt
  ```
  * NB: this may take a **very (very) long time** to end since you'll probably going to have around 800.000 web pages to download. You're free to use only 
  ```
- node getAndCsv.js
+ node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getAndCsv.js 
  ```
  (without the log file) if you want to check your progress on the terminal (don't be afraid if the first results are all errors, it's normal since the requests run all in parallel and errors are faster).
  * You'll have all the files you need in the output folder and in logsGet.txt (probably several thousands of html files and a csv file with your surname).
