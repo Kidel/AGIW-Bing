@@ -49,7 +49,7 @@ I suggest little steps of an interval of max 100 values, every time logging poss
   node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getPages.js  > logsGet.txt
  ```
  
- * NB: this may take a **very (very) long time** to end since you'll probably going to have around 800.000 web pages to download. You're free to use only 
+ * NB: this may take a **very (very) long time** to end since you'll probably going to have around 2 million web pages to download. You're free to use only 
  
  ```bash
  node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getPages.js 
