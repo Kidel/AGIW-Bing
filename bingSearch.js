@@ -35,7 +35,7 @@ lineReader.on('line', function (line) {
                 }
                 else {
                     //console.log(code + " query " + query + " has given error " + error);
-                    if(i==1) console.log(code + "\t" + query);
+                    if(i==0) console.log(code + "\t" + query);
                 }
             });
         });
