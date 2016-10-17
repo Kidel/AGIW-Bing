@@ -42,7 +42,7 @@ I suggest little steps of an interval of max 100 values, every time logging poss
  ```bash
  node makeCsv.js > logsMake.txt
  ```
-  This will create your surname.scv file in output/. 
+  This will create your surname.csv file in output/. 
  * Now just run:
  ```bash
   node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getPages.js  > logsGet.txt
