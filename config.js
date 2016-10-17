@@ -1,10 +1,10 @@
 module.exports = {
     matricola: 476538,
     cognome: "bonofiglio",
-    apiKey: "vRv4Nz7uz+gBqTALYhvM7gUglxPb7PQOKFxkRuHnIDE=",
+    apiKey: "e+Wc99XWCxi5oGJDIyYjT07vnNtzIoDBC5J6dt7uNH0",
     filename: 'input/agiw-data-gathering-2016-2017-codes.txt',
-    startingFrom: 16651,
-    endingTo: 18500 // included
+    startingFrom: 16655,
+    endingTo: 17000 // included
 };
 // I suggest you use 2 different keys and 2 different intervals if the interval is bigger then 1500.
 // Simply change the config and run bingSearch.js 2 times.

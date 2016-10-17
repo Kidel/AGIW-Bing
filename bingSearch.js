@@ -18,10 +18,12 @@ lineReader.on('line', function (line) {
                 skip: 50 * i,   // Skip first x results
                 options: ['DisableLocationDetection', 'EnableHighlighting']
             }, function (error, res, body) {
-                var print = JSON.stringify(body.d.results, null, 4);
-                fs.appendFile('output/results.txt', print, function (err) {
-                    if (err) return console.log(err);
-                });
+                if(typeof body != 'undefined') {
+                    var print = JSON.stringify(body.d.results, null, 4);
+                    fs.appendFile('output/results.txt', print, function (err) {
+                        if (err) return console.log(err);
+                    });
+                }
             });
         }
     }
