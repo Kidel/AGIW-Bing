@@ -21,3 +21,4 @@ A tool to help students with their second AGIW homework.
  ```
  * NB: this may take a very long time to end since you'll probably going to have around 800.000 web pages to download. 
  * You'll have all the files you need in the output folder and in logsGet.txt and logsSearch.txt.
+ * input/failedQueries.txt will have any query that has failed in bingSearch.js, meaning that you can rename it set it as input in config.js.
