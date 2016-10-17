@@ -28,7 +28,7 @@ lineReader.on('line', function (line) {
 
                 if(typeof res != 'undefined' && res.statusCode == "503") {
                     console.log(code + "\t" + query + "\t ERR:SUBLIMIT " + res.statusMessage.replace(/(\r\n|\n|\r)/gm,""));
-                    var subEnd = true;
+                    subEnd = true;
                     return;
                 }
 
