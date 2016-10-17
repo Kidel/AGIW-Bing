@@ -21,7 +21,7 @@ lineReader.on('line', function (line) {
             }, function (error, res, body) {
 
                 if(typeof res != 'undefined' && res.statusCode == "503") {
-                    console.log(code + "\t" + query + "\t ERR:SUBLIMIT " + res.statusMessage);
+                    console.log(code + "\t" + query + "\t ERR:SUBLIMIT " + res.statusMessage.replace(/(\r\n|\n|\r)/gm,""));
                     var subEnd = true;
                     return;
                 }
@@ -32,7 +32,7 @@ lineReader.on('line', function (line) {
                         //console.log(code + " query " + query + " has given " + body.d.results.length + " results");
                         fs.appendFile('output/results.txt', print, function (err) {
                             if (err) {
-                                console.log(code + "\t" + query + "\t FS error " + err);
+                                console.log(code + "\t" + query + "\t FS error " + err.replace(/(\r\n|\n|\r)/gm,""));
                             }
                         });
                     }
@@ -43,7 +43,7 @@ lineReader.on('line', function (line) {
                 }
                 else {
                     // bing errors like timeout
-                    console.log(code + "\t" + query + "\t Bing API error " + error);
+                    console.log(code + "\t" + query + "\t Bing API error " + error.replace(/(\r\n|\n|\r)/gm,""));
                 }
             });
     }
