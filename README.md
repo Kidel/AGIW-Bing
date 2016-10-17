@@ -29,7 +29,7 @@ I suggest little steps of an interval of max 100 values, every time logging poss
  ```
  node bingSearch.js >> failed.txt
  ```
- * Logging to a file will help you keep track of all the queries that Bing fails or refuses to reply to.
+ * Logging to a file will help you keep track of all the queries that Bing fails or refuses to reply to. Using '>>' will append the new logs on the previous file, but if you want more control you may want to use multiple log files so that you can see if your API key has expired.
  * If your given interval contains more the 1500 codes I recommend splitting it into 15 or more smaller intervals and run  bingSearch.js 15 times with at least 2 Bing Accounts (free API accounts only have 5000 free transactions, and to get 150 results the software needs to do 3 of them for each record, since the API is limited to 50 max results for 1 query).
  * Once you've run bingSearch.js as many times as you want with different intervals you should have a file called 'output/results.txt' with all different results (if you did everything correctly with no repetitions) and failed.txt that you can use as input (config.js -> filename) to try and get what you missed. 
  * As mentioned above, **if you fail all the requests in the current interval it means that you've reached your API limit or your request/minute limit**, so simply pause the work and try another day or in a few hours. If you still fail all the requests try with another API key **from a different account**. 
