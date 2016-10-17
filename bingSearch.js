@@ -6,7 +6,13 @@ var lineReader = require('readline').createInterface({
     input: fs.createReadStream(config.filename)
 });
 
-var arg = process.argv.slice(2)[0] * 1;
+var arg
+try {
+    arg = process.argv.slice(2)[0] * 1;
+}
+catch(e) {
+    arg = 0;
+}
 var subEnd = false;
 
 lineReader.on('line', function (line) {
@@ -32,7 +38,7 @@ lineReader.on('line', function (line) {
                         //console.log(code + " query " + query + " has given " + body.d.results.length + " results");
                         fs.appendFile('output/results.txt', print, function (err) {
                             if (err) {
-                                console.log(code + "\t" + query + "\t FS error " + err.replace(/(\r\n|\n|\r)/gm,""));
+                                console.log(code + "\t" + query + "\t FS error " + err);
                             }
                         });
                     }
@@ -43,7 +49,7 @@ lineReader.on('line', function (line) {
                 }
                 else {
                     // bing errors like timeout
-                    console.log(code + "\t" + query + "\t Bing API error " + error.replace(/(\r\n|\n|\r)/gm,""));
+                    console.log(code + "\t" + query + "\t Bing API error " + error);
                 }
             });
     }
