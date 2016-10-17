@@ -31,6 +31,7 @@ I suggest little steps of an interval of max 100 values, every time logging poss
  
  ```bash
  node bingSearch.js X >> failed_X.txt
+ # example: node bingSearch.js 0 >> failed_0.txt
  ```
  * Replace X with 0 if you want the first 50 results for each query in your file, 1 for the following 50 and so on (up to 2 if you want 150 results for each query total).
  * Logging to a file will help you keep track of all the queries that Bing fails or refuses to reply to. Using '>>' will append the new logs on the previous file, but if you want more control you may want to use multiple log files so that you can see if your API key has expired.
@@ -46,13 +47,13 @@ I suggest little steps of an interval of max 100 values, every time logging poss
   This will create your surname.csv file in output/. 
  * Now just run:
  ```bash
-  node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getPages.js  > logsGet.txt
+  node getPages.js > logsGet.txt
  ```
  
  * NB: this may take a **very long time** to end since you'll probably going to have around 2 million web pages to download. You're free to use this if you want to check your progress on the terminal 
  
  ```bash
- node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getPages.js 
+ node getPages.js 
  ```
  
  * Don't be afraid if the first results are all errors, it's normal since the requests run all in parallel and errors are faster.
