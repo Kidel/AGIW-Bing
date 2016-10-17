@@ -57,7 +57,7 @@ function getDataFromBing(apiKey, arg){
             if(code==(config.endingTo+1)){
                 if(arg<argMax){
                     console.log("Token! Changing API key to " + arg);
-                    getDataFromBing(apiKey, ++arg); 
+                    getDataFromBing(apiKey, (arg+1)); 
                 } 
             }
         }

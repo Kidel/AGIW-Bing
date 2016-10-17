@@ -1,9 +1,11 @@
 module.exports = {
     matricola: 123456,
     cognome: "surname",
-    apiKey: "1234IamNotaValidKey",
+    apiKey: ["1234IamNotaValidKey",
+    "IamNotAnotherApiKey"],
     filename: 'input/agiw-data-gathering-2016-2017-codes.txt',
     startingFrom: 1,
+    argMax: 2,
     endingTo: 500 // included
 };
 // I suggest you use 2 different keys and 2 different intervals if the interval is bigger then 1500.
