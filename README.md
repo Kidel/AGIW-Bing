@@ -1,5 +1,5 @@
 # AGIW-Bing
-A tool to help students with their second AGIW homework.
+A tool to help students with their second AGIW task.
 
 ## Config
 Duplicate config.js.example and rename the copy config.js, then edit it
