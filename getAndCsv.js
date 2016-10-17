@@ -16,7 +16,7 @@ fs.readFile('output/results.txt', 'utf8', function (err,data) {
     var data = JSON.parse(data.replace(/\[\]/gi, "").replace(/\]\[/gi, ","));
     //console.log(data);
     data.forEach(function(d, i) {
-        var code = d.__metadata.uri.split("Query='")[1].split("'")[0];
+        var code = d.__metadata.uri.split("Query='")[1].split("'")[0].replace(/(\r\n|\n|\r)/gm,"");
         var url = d.Url;
         incremental++;
         try {
