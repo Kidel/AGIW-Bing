@@ -6,7 +6,7 @@ var lineReader = require('readline').createInterface({
     input: fs.createReadStream(config.filename)
 });
 
-var arg
+var arg;
 try {
     arg = process.argv.slice(2)[0] * 1;
 }
@@ -19,7 +19,6 @@ lineReader.on('line', function (line) {
     var code = line.split("\t")[0] * 1;
     var query = line.split("\t")[1].replace(/(\r\n|\n|\r)/gm,"");
     if(code>=config.startingFrom && code<=config.endingTo) {
-        if(!subEnd)
             Bing.web(query, {
                 top: 50,  // Number of results (max 50)
                 skip: 50 * arg,   // Skip first x results
@@ -28,7 +27,6 @@ lineReader.on('line', function (line) {
 
                 if(typeof res != 'undefined' && res.statusCode == "503") {
                     console.log(code + "\t" + query + "\t ERR:SUBLIMIT " + res.statusMessage.replace(/(\r\n|\n|\r)/gm,""));
-                    subEnd = true;
                     return;
                 }
 
@@ -44,7 +42,6 @@ lineReader.on('line', function (line) {
                     }
                     else {
                         // 0 results
-                        return false;
                     }
                 }
                 else {
