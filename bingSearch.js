@@ -20,6 +20,7 @@ lineReader.on('line', function (line) {
             }, function (error, res, body) {
                 if(typeof body != 'undefined') {
                     var print = JSON.stringify(body.d.results, null, 4);
+                    console.log(code + " query " + query + " has given " + body.d.results.length + " results");
                     fs.appendFile('output/results.txt', print, function (err) {
                         if (err) return console.log(err);
                     });
