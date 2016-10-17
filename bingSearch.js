@@ -4,15 +4,15 @@ var fs = require('fs');
 
 var argMax = config.argMax;
 if(config.apiKey.length != (argMax+1)){
-    getDataFromBing(config.apiKey,0 , 0);
+    getDataFromBing(config.apiKey,0);
 } else {
     console.log("Not enough api keys");
 }
 
 
-function getDataFromBing(apiKey, apiKeyIndex, arg){
+function getDataFromBing(apiKey, arg){
 
-    var Bing = require('node-bing-api')({ accKey: apiKey[apiKeyIndex] });
+    var Bing = require('node-bing-api')({ accKey: apiKey[arg] });
     var lineReader = require('readline').createInterface({
         input: fs.createReadStream(config.filename)
     });
@@ -59,7 +59,7 @@ function getDataFromBing(apiKey, apiKeyIndex, arg){
     }).on('close', function(){
         if(arg<argMax){
             console.log("Token! Changing API key");
-           getDataFromBing(apiKey, apiKeyIndex++, arg++); 
+           getDataFromBing(apiKey, arg++); 
         }
     });
 }
