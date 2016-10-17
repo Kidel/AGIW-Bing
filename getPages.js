@@ -24,7 +24,7 @@ lineReader.on('line', function (line) {
 			console.log("HTTP error getting query result for " + query + " url " + url + " ---- " + e.message);
 		}).pipe(file).on('close', function () {
 			console.log("Ok on file "+ filename +", query result for " + query + " url " + url);
-		}).end();
+		});
 	}
 	catch(e) {
 		console.log("Got error for file " + filename + ": " + e.message);
