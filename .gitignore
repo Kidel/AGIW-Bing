@@ -6,3 +6,4 @@ config.js
 logsGet.txt
 logsSearch.txt
 failed.txt
+npm-debug.log
