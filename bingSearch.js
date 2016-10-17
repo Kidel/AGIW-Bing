@@ -26,12 +26,11 @@ lineReader.on('line', function (line) {
                         var print = JSON.stringify(body.d.results, null, 4);
                         //console.log(code + " query " + query + " has given " + body.d.results.length + " results");
                         fs.appendFile('output/results.txt', print, function (err) {
-                            if (err) return console.log(err);
+                            if (err) return /*console.log(err)*/;
                         });
                     }
                     else {
                         //console.log(code + " query " + query + " has given no results");
-                        console.log(code + "\t" + query);
                     }
                 }
                 else {
