@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node bingSearch.js 0 > failed_0.txt"
   },
   "dependencies": {
     "csv-write-stream": "^2.0.0",
