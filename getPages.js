@@ -10,7 +10,7 @@ var lineReader = require('readline').createInterface({
 lineReader.on('line', function (line) {
 	var lineArr = line.split(";");
     var query = lineArr[0];
-    var filename = 'output/' + lineArr[1];
+    var filename = 'htmlFiles/' + lineArr[1];
 	var url = lineArr[2];
     try {
 		var file = fs.createWriteStream(filename);
