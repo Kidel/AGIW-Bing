@@ -42,7 +42,11 @@ lineReader.on('line', function (line) {
                                     //console.log(code + "\t" + query);
                                     //throw new FsException("FS " + err);
                                 }
-                                else succ[code] = query;
+                                else {
+                                    succ[code] = query;
+                                    if(body.d.results.length < 50)
+                                        skip[code] = query;
+                                }
                             });
                         }
                         else {
