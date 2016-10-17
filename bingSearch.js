@@ -31,12 +31,12 @@ lineReader.on('line', function (line) {
                     }
                     else {
                         //console.log(code + " query " + query + " has given no results");
-                        console.log(code + "\t" + query + "\n");
+                        console.log(code + "\t" + query);
                     }
                 }
                 else {
                     //console.log(code + " query " + query + " has given error " + error);
-                    console.log(code + "\t" + query + "\n");
+                    console.log(code + "\t" + query);
                 }
             });
         });
