@@ -40,15 +40,20 @@ I suggest little steps of an interval of max 100 values, every time logging poss
  * Finally run: 
  
  ```bash
- node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getAndCsv.js > logsGet.txt
+ node makeCsv.js > logsMake.txt
+ ```
+  This will create your surname.scv file in output/. 
+ * Now just run:
+ ```bash
+  node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getPages.js  > logsGet.txt
  ```
  
  * NB: this may take a **very (very) long time** to end since you'll probably going to have around 800.000 web pages to download. You're free to use only 
  
  ```bash
- node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getAndCsv.js 
+ node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getPages.js 
  ```
  
- (without the log file) if you want to check your progress on the terminal (don't be afraid if the first results are all errors, it's normal since the requests run all in parallel and errors are faster).
+  (without the log file) if you want to check your progress on the terminal (don't be afraid if the first results are all errors, it's normal since the requests run all in parallel and errors are faster).
  * You'll have all the files you need in the output folder and in logsGet.txt (probably several thousands of html files and a csv file with your surname).
  * failed.txt will have any query that has failed in bingSearch.js, meaning that you can rename it set it as input in config.js.
