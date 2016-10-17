@@ -52,7 +52,9 @@ function getDataFromBing(apiKey, apiKeyIndex, arg){
                     }
                 });
         } else {
-            lineReader.close();
+            if(code<=config.endingTo){
+              lineReader.close();  
+            }
         }
     }).on('close', function(){
         if(arg<argMax){
