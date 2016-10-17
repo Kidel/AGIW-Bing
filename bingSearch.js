@@ -47,6 +47,4 @@ lineReader.on('line', function (line) {
                 }
             });
     }
-}).on('close', function() {
-    console.log(fails);
 });
