@@ -15,7 +15,7 @@ try {
 catch(e) {
     arg = -1;
 }
-if(arg != -1) console.log("User override with arg " + arg);
+if(arg != -1) console.log("User requested procedure override with arg: " + arg);
 else console.log("Reading file " + config.filename);
 
 var errorFileName = "output/"+path.basename(config.filename, '.txt')+"_error_";
@@ -25,21 +25,23 @@ var argMax = Math.ceil(config.results / 50) -1;
 var start = config.startingFrom;
 var end = (config.startingFrom + config.steps <= config.endingTo)? (config.startingFrom + config.steps):config.endingTo;
 
-mainTask(start, end);
-
-// main
-var linearBackoff = setInterval(function () {
-    console.log("Started Linear Backoff");
-    updateStartEnd(end);
+if (arg == -1) {
     mainTask(start, end);
-}, config.linearBackoff);
 
-function updateStartEnd(oldEnd) {
-    start = oldEnd+1;
-    end = (oldEnd+1 + config.steps <= config.endingTo)? (oldEnd+1 + config.steps):config.endingTo;
-    counter = [];
-    console.log("Recalculating start: "+start+" and end: "+end);
+    var linearBackoff = setInterval(function () {
+        console.log("Started Linear Backoff");
+        updateStartEnd(end);
+        mainTask(start, end);
+    }, config.linearBackoff);
+
+    function updateStartEnd(oldEnd) {
+        start = oldEnd + 1;
+        end = (oldEnd + 1 + config.steps <= config.endingTo) ? (oldEnd + 1 + config.steps) : config.endingTo;
+        counter = [];
+        console.log("Recalculating start: " + start + " and end: " + end);
+    }
 }
+else mainTask(config.startingFrom, config.endingTo);
 
 function mainTask(start, end) {
     if (arg == -1) {
@@ -51,8 +53,10 @@ function mainTask(start, end) {
     }
     else { // user override if script is launched with 1 argument
         if (arg <= config.apiKey.length) {
+            console.log("User override accepted");
+            console.log("New logs will be saved to " + errorFileName+arg+"_new"+".txt");
             argMax = arg;
-            getDataFromBing([config.apiKey[arg]], arg, start, end, errorFileName +arg+".txt", "_new");
+            getDataFromBing(config.apiKey, arg, config.startingFrom, config.endingTo, errorFileName +arg+".txt", "_new");
         }
         else
             console.log("Argument " + arg + " is not valid");
@@ -68,7 +72,7 @@ function getDataFromBing(apiKey, offset, start, end, filename, discriminator){
     lineReader.on('line', function (line) {
         var lineArray = line.split("\t");
         var code = lineArray[0] * 1;
-        
+
         if(code>=start && code<=end) {
             var query = lineArray[1].replace(/(\r\n|\n|\r)/gm,"");
             Bing.web(query, {
@@ -93,12 +97,12 @@ function getDataFromBing(apiKey, offset, start, end, filename, discriminator){
                         //console.log(code + " query " + query + " has given " + body.d.results.length + " results");
                         fs.appendFile('output/results.txt', print, function (err) {
                             if (err) {
-                                var message = code + "\t" + query + "\t" + offset + "\t FS error " + err + "\n";
-                                fs.appendFile(errorFileName+offset+discriminator+".txt", message, function (err) {
+                                var message_1 = code + "\t" + query + "\t" + offset + "\t FS error " + err + "\n";
+                                fs.appendFile(errorFileName+offset+discriminator+".txt", message_1, function (err) {
                                     if (err){
                                         console.log('Damn, I can\'t event write on a file');
                                     }
-                                }); 
+                                });
                             }
                         });
                     }
@@ -108,8 +112,8 @@ function getDataFromBing(apiKey, offset, start, end, filename, discriminator){
                 }
                 else {
                     // bing errors like timeout
-                    var message = code + "\t" + query + "\t" + offset + "\t Bing API error " + error+"\n";
-                    fs.appendFile(errorFileName+offset+discriminator+".txt", message, function (err) {
+                    var message_2 = code + "\t" + query + "\t" + offset + "\t Bing API error " + error+"\n";
+                    fs.appendFile(errorFileName+offset+discriminator+".txt", message_2, function (err) {
                         if (err){
                             console.log('Damn, I can\'t event write on a file');
                         }
@@ -129,14 +133,19 @@ function getDataFromBing(apiKey, offset, start, end, filename, discriminator){
 
 function findEnd(contatore){
     if(contatore.every(isEnded)){
-        console.log("I've finished " + config.steps + " steps, waiting " + (config.linearBackoff / 1000) + " seconds now");
+        console.log("I've finished " + ((arg==-1)? config.steps:contatore[arg]) + " steps ");
+        if(arg == -1)
+            console.log("Waiting " + (config.linearBackoff / 1000) + " seconds now");
         if(end >= config.endingTo) {
             clearInterval(linearBackoff);
-            console.log("Everything done, check your error files");
+            console.log("Everything done, check your error log files. Wait 10 minutes and retry to download using override (passing the error log file number as parameter)");
         }
     }
 }
 
 function isEnded(element, index, array){
-  return element == ((end-start)+1);
+    if (arg == -1)
+        return element == ((end-start)+1);
+    else
+        return element == ((config.endingTo-config.startingFrom)+1);
 }
