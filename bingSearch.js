@@ -120,7 +120,7 @@ function getDataFromBing(apiKey, offset, start, end, filename, discriminator){
         } else {
             if(code==(config.endingTo+1)){
                 if(offset<argMax){
-                    getDataFromBing(apiKey, (offset+1), start, end);
+                    getDataFromBing(apiKey, (offset+1), start, end, filename, discriminator);
                 }
             }
         }
