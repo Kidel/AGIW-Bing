@@ -18,7 +18,7 @@ else console.log("Reading file " + config.filename);
 
 var errorFileName = "output/"+path.basename(config.filename, '.txt')+"_error_";
 
-var argMax = Math.ceil(config.results / 50);
+var argMax = Math.ceil(config.results / 50) -1;
 
 var start = config.startingFrom;
 var end = (config.startingFrom + config.steps <= config.endingTo)? (config.startingFrom + config.steps):config.endingTo;
