@@ -17,23 +17,38 @@ var errorFileName = "output/"+path.basename(config.filename, '.txt')+"_error_";
 
 var argMax = Math.ceil(config.results / 50);
 
-// main
-if(arg != -1) {
-    if (config.apiKey.length >= (argMax + 1)) {
-        getDataFromBing(config.apiKey, 0, config.startingFrom, config.endingTo);
-    }
-    else
-        console.log("Not enough Bing API keys, insert more in config.js");
-}
-else { // user override if script is launched with 1 argument
-    if(arg <= config.apiKey.length) {
-        argMax = arg;
-        getDataFromBing([config.apiKey[arg]], arg, config.startingFrom, config.endingTo);
-    }
-    else
-        console.log("Argument " + arg + " is not valid");
+var start = config.startingFrom;
+var end = (config.startingFrom + config.steps <= config.endingTo)? (config.startingFrom + config.steps):config.endingTo;
+
+function updateStartEnd(oldEnd) {
+    start = oldEnd+1;
+    end = (oldEnd+1 + config.steps <= config.endingTo)? (oldEnd+1 + config.steps):config.endingTo;
 }
 
+// main
+var linearBackoff = setInterval(function () {
+    mainTask(start, end);
+    updateStartEnd(end);
+}, config.linearBackoff);
+
+
+function mainTask(start, end) {
+    if (arg != -1) {
+        if (config.apiKey.length >= (argMax + 1)) {
+            getDataFromBing(config.apiKey, 0, start, end);
+        }
+        else
+            console.log("Not enough Bing API keys, insert more in config.js");
+    }
+    else { // user override if script is launched with 1 argument
+        if (arg <= config.apiKey.length) {
+            argMax = arg;
+            getDataFromBing([config.apiKey[arg]], arg, start, end);
+        }
+        else
+            console.log("Argument " + arg + " is not valid");
+    }
+}
 
 function getDataFromBing(apiKey, arg, start, end){
 
@@ -106,10 +121,14 @@ function getDataFromBing(apiKey, arg, start, end){
 
 function findEnd(contatore){
     if(contatore.every(isEnded)){
-        console.log("Ho finito");
+        console.log("I've finished the first " + config.steps + " steps, waiting " + (config.linearBackoff / 1000) + " seconds now");
+        if(end >= config.endingTo) {
+            clearInterval(linearBackoff);
+            console.log("everything done");
+        }
     }
 }
 
 function isEnded(element, index, array) {
-  return element == ((config.endingTo-config.startingFrom)+1);
+  return element == ((start-end)+1);
 }
