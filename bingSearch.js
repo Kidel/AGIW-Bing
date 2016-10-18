@@ -31,13 +31,13 @@ mainTask(start, end);
 var linearBackoff = setInterval(function () {
     console.log("Started Linear Backoff");
     updateStartEnd(end);
-    console.log(start, end);
     mainTask(start, end);
 }, config.linearBackoff);
 
 function updateStartEnd(oldEnd) {
     start = oldEnd+1;
     end = (oldEnd+1 + config.steps <= config.endingTo)? (oldEnd+1 + config.steps):config.endingTo;
+    counter = [];
     console.log("Recalculating start: "+start+" and end: "+end);
 }
 
@@ -132,7 +132,7 @@ function findEnd(contatore){
         console.log("I've finished " + config.steps + " steps, waiting " + (config.linearBackoff / 1000) + " seconds now");
         if(end >= config.endingTo) {
             clearInterval(linearBackoff);
-            console.log("everything done");
+            console.log("Everything done, check your error files");
         }
     }
 }
