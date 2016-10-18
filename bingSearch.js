@@ -2,6 +2,8 @@ var config = require('./config');
 
 var fs = require('graceful-fs');
 var path = require('path');
+var rl = require('readline');
+var b = require('node-bing-api');
 
 var counter = [];
 
@@ -58,9 +60,8 @@ function mainTask(start, end) {
 }
 
 function getDataFromBing(apiKey, offset, start, end, filename, discriminator){
-
-    var Bing = require('node-bing-api')({ accKey: apiKey[offset] });
-    var lineReader = require('readline').createInterface({
+    var Bing = b({ accKey: apiKey[offset] });
+    var lineReader = rl.createInterface({
         input: fs.createReadStream(filename)
     });
 
