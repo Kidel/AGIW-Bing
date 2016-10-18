@@ -13,7 +13,6 @@ module.exports = {
     steps: 200,
     linearBackoff: 1000 * 60 * 10 // 10 minutes
 };
-// I suggest you use 2 different keys and 2 different intervals if the interval is bigger then 1500.
-// Simply change the config and run bingSearch.js 2 times.
+// I suggest you use 3 different keys from 3 different accounts for 150 results per query (50 for each key).
+// If you want more results you need to add more keys (or duplicate some in the array if you need to find less keywords).
 // If you want to start all over again, remember to empty your output folder or the new data will be appended to the old files.
-// argMax needs to be setted at 2 to have 150 results as requested, 0 => 50 results, 1 => 100 results, 2 => 150 results...
