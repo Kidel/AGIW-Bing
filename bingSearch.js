@@ -5,17 +5,37 @@ var path = require('path');
 
 var counter = [];
 
+var arg;
+try {
+    arg = process.argv.slice(2)[0] * 1;
+}
+catch(e) {
+    arg = -1;
+}
+
 var errorFileName = "output/"+path.basename(config.filename, '.txt')+"_error_";
 
-var argMax = config.argMax;
-if(config.apiKey.length >= (argMax+1)){
-    getDataFromBing(config.apiKey,0);
-} else {
-    console.log("Not enough api keys, insert another API key in config.js");
+var argMax = Math.ceil(config.results / 50);
+
+// main
+if(arg != -1) {
+    if (config.apiKey.length >= (argMax + 1)) {
+        getDataFromBing(config.apiKey, 0, config.startingFrom, config.endingTo);
+    }
+    else
+        console.log("Not enough Bing API keys, insert more in config.js");
+}
+else { // user override if script is launched with 1 argument
+    if(arg <= config.apiKey.length) {
+        argMax = arg;
+        getDataFromBing([config.apiKey[arg]], arg, config.startingFrom, config.endingTo);
+    }
+    else
+        console.log("Argument " + arg + " is not valid");
 }
 
 
-function getDataFromBing(apiKey, arg){
+function getDataFromBing(apiKey, arg, start, end){
 
     var Bing = require('node-bing-api')({ accKey: apiKey[arg] });
     var lineReader = require('readline').createInterface({
@@ -26,7 +46,7 @@ function getDataFromBing(apiKey, arg){
         var lineArray = line.split("\t");
         var code = lineArray[0] * 1;
         
-        if(code>=config.startingFrom && code<=config.endingTo) {
+        if(code>=start && code<=end) {
             var query = lineArray[1].replace(/(\r\n|\n|\r)/gm,"");
             Bing.web(query, {
                 top: 50,  // Number of results (max 50)
@@ -77,7 +97,7 @@ function getDataFromBing(apiKey, arg){
         } else {
             if(code==(config.endingTo+1)){
                 if(arg<argMax){
-                    getDataFromBing(apiKey, (arg+1)); 
+                    getDataFromBing(apiKey, (arg+1), start, end);
                 }
             }
         }
