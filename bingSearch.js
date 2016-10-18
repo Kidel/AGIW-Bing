@@ -1,32 +1,46 @@
 var config = require('./config');
 
-var fs = require('fs');
-var Bing = require('node-bing-api')({ accKey: config.apiKey });
-var lineReader = require('readline').createInterface({
-    input: fs.createReadStream(config.filename)
-});
+var fs = require('graceful-fs');
+var path = require('path');
 
-var arg;
-try {
-    arg = process.argv.slice(2)[0] * 1;
-}
-catch(e) {
-    arg = 0;
-}
-var subEnd = false;
+var counter = [];
 
-lineReader.on('line', function (line) {
-    var code = line.split("\t")[0] * 1;
-    var query = line.split("\t")[1].replace(/(\r\n|\n|\r)/gm,"");
-    if(code>=config.startingFrom && code<=config.endingTo) {
+var errorFileName = "output/"+path.basename(config.filename, '.txt')+"_error_";
+
+var argMax = config.argMax;
+if(config.apiKey.length >= (argMax+1)){
+    getDataFromBing(config.apiKey,0);
+} else {
+    console.log("Not enough api keys, insert another API key in config.js");
+}
+
+
+function getDataFromBing(apiKey, arg){
+
+    var Bing = require('node-bing-api')({ accKey: apiKey[arg] });
+    var lineReader = require('readline').createInterface({
+        input: fs.createReadStream(config.filename)
+    });
+
+    lineReader.on('line', function (line) {
+        var lineArray = line.split("\t");
+        var code = lineArray[0] * 1;
+        
+        if(code>=config.startingFrom && code<=config.endingTo) {
+            var query = lineArray[1].replace(/(\r\n|\n|\r)/gm,"");
             Bing.web(query, {
                 top: 50,  // Number of results (max 50)
                 skip: 50 * arg,   // Skip first x results
                 options: ['DisableLocationDetection', 'EnableHighlighting']
             }, function (error, res, body) {
-
+                counter[arg] = counter[arg]+1 || 1;
                 if(typeof res != 'undefined' && res.statusCode == "503") {
-                    console.log(code + "\t" + query + "\t ERR:SUBLIMIT " + res.statusMessage.replace(/(\r\n|\n|\r)/gm,""));
+                    var message = code + "\t" + query + "\t" + arg + "\t ERR:SUBLIMIT " + res.statusMessage.replace(/(\r\n|\n|\r)/gm,"")+"\n";
+                    fs.appendFile(errorFileName+arg+".txt", message, function (err) {
+                        if (err){
+                            console.log('Damn, I can\'t event write on a file');
+                        }
+                    });
                     return;
                 }
 
@@ -36,7 +50,12 @@ lineReader.on('line', function (line) {
                         //console.log(code + " query " + query + " has given " + body.d.results.length + " results");
                         fs.appendFile('output/results.txt', print, function (err) {
                             if (err) {
-                                console.log(code + "\t" + query + "\t FS error " + err);
+                                var message = code + "\t" + query + "\t" + arg + "\t FS error " + err + "\n";
+                                fs.appendFile(errorFileName+arg+".txt", message, function (err) {
+                                    if (err){
+                                        console.log('Damn, I can\'t event write on a file');
+                                    }
+                                }); 
                             }
                         });
                     }
@@ -46,8 +65,31 @@ lineReader.on('line', function (line) {
                 }
                 else {
                     // bing errors like timeout
-                    console.log(code + "\t" + query + "\t Bing API error " + error);
+                    var message = code + "\t" + query + "\t" + arg + "\t Bing API error " + error+"\n";
+                    fs.appendFile(errorFileName+arg+".txt", message, function (err) {
+                        if (err){
+                            console.log('Damn, I can\'t event write on a file');
+                        }
+                    });
                 }
+                findEnd(counter);
             });
+        } else {
+            if(code==(config.endingTo+1)){
+                if(arg<argMax){
+                    getDataFromBing(apiKey, (arg+1)); 
+                }
+            }
+        }
+    });
+}
+
+function findEnd(contatore){
+    if(contatore.every(isEnded)){
+        console.log("Ho finito");
     }
-});
+}
+
+function isEnded(element, index, array) {
+  return element == ((config.endingTo-config.startingFrom)+1);
+}

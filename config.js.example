@@ -1,11 +1,14 @@
 module.exports = {
     matricola: 123456,
     cognome: "surname",
-    apiKey: "1234IamNotaValidKey",
+    apiKey: ["1234IamNotaValidKey",
+    "IamNotAnotherApiKey"],
     filename: 'input/agiw-data-gathering-2016-2017-codes.txt',
     startingFrom: 1,
+    argMax: 2,
     endingTo: 500 // included
 };
 // I suggest you use 2 different keys and 2 different intervals if the interval is bigger then 1500.
 // Simply change the config and run bingSearch.js 2 times.
 // If you want to start all over again, remember to empty your output folder or the new data will be appended to the old files.
+// argMax needs to be setted at 2 to have 150 results as requested, 0 => 50 results, 1 => 100 results, 2 => 150 results...
