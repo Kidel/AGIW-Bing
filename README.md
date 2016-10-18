@@ -10,7 +10,7 @@ module.exports = {
     apiKey: [
               "1234IamNotaValidKey",
               "1235IamNotAnotherApiKey",
-              "1236IamNotAnotherApiKey"
+              "1236IamReallyNotAnotherApiKey"
               ],
     filename: 'input/agiw-data-gathering-2016-2017-codes.txt',
     startingFrom: 1,
