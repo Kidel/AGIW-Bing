@@ -26,19 +26,19 @@ var start = config.startingFrom;
 var end = (config.startingFrom + config.steps <= config.endingTo)? (config.startingFrom + config.steps):config.endingTo;
 
 mainTask(start, end);
-updateStartEnd(end);
 
 // main
 var linearBackoff = setInterval(function () {
     console.log("Started Linear Backoff");
-    mainTask(start, end);
     updateStartEnd(end);
+    console.log(start, end);
+    mainTask(start, end);
 }, config.linearBackoff);
 
 function updateStartEnd(oldEnd) {
-    console.log("Recalculating start and end");
     start = oldEnd+1;
     end = (oldEnd+1 + config.steps <= config.endingTo)? (oldEnd+1 + config.steps):config.endingTo;
+    console.log("Recalculating start: "+start+" and end: "+end);
 }
 
 function mainTask(start, end) {
@@ -129,7 +129,7 @@ function getDataFromBing(apiKey, offset, start, end, filename, discriminator){
 
 function findEnd(contatore){
     if(contatore.every(isEnded)){
-        console.log("I've finished the first " + config.steps + " steps, waiting " + (config.linearBackoff / 1000) + " seconds now");
+        console.log("I've finished " + config.steps + " steps, waiting " + (config.linearBackoff / 1000) + " seconds now");
         if(end >= config.endingTo) {
             clearInterval(linearBackoff);
             console.log("everything done");
@@ -137,6 +137,6 @@ function findEnd(contatore){
     }
 }
 
-function isEnded(element, index, array) {
-  return element == ((start-end)+1);
+function isEnded(element, index, array){
+  return element == ((end-start)+1);
 }
