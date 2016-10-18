@@ -37,12 +37,12 @@ I suggest little steps of an interval of max 200 values, every and check for pos
  ```bash
  node bingSearch.js
  ```
- * Once you've run bingSearch.js in output folder you should have a file called 'results.txt' with all different results (if you did everything correctly with no repetitions) and as many files inputFileName_errors_X.txt as results/50 for the errors. 
+ * Once you've run bingSearch.js in output folder you should have a file called 'results.txt' with all different results (if you did everything correctly with no repetitions) and as many files inputFileName_errors_X.txt as (results/50) for the errors. 
  * You can use as the error files as input to try and get what you missed for each file simply by using user override mode like that:
   ```bash
   node bingSearch.js X
   ```
-   Where 'X' is the number of your error file (0 for XXX_error_0.txt, 1 for XXX_error_1.txt and so on). 
+   Where 'X' is the number of your error file (0 for XXX_error_0.txt, 1 for XXX_error_1.txt and so on). No need to move the log files anymore (if you still get errors in '_new' log files just rename them removing '_new' and retry).
  * The script will automatically try a linear backoff waiting (by default) 10 minutes every 200 API uses. By the way **keep checking your log files to see if your keys have expired**.  It should take about 90 minutes for 1800 keywords (with default settings).
  * When you're confident about your output/results.txt (the file that stores the results) run the following:
  
@@ -56,7 +56,7 @@ I suggest little steps of an interval of max 200 values, every and check for pos
   node getPages.js > logsGet.txt
  ```
  
- * NB: this may take a **very long time** depending on your connection speed and cpu (took me 4 hours with i7 and 30 Mb/s connection) to end since you'll probably going to have around 2 million web pages to download. You're free to use this if you want to check your progress on the terminal 
+ * NB: this may take a **very long time** depending on your connection speed and cpu (took me 4 hours with i7 and 30 Mb/s connection) to end since you're probably going to have around 2 million web pages to download. You're free to use this if you want to check your progress on the terminal 
  
  ```bash
  node getPages.js 
