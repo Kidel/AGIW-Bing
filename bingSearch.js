@@ -8,10 +8,13 @@ var counter = [];
 var arg;
 try {
     arg = process.argv.slice(2)[0] * 1;
+    if(isNaN(arg)) throw "NaN";
 }
 catch(e) {
     arg = -1;
 }
+if(arg != -1) console.log("User override with arg " + arg);
+else console.log("Reading file " + config.filename);
 
 var errorFileName = "output/"+path.basename(config.filename, '.txt')+"_error_";
 
@@ -20,10 +23,8 @@ var argMax = Math.ceil(config.results / 50);
 var start = config.startingFrom;
 var end = (config.startingFrom + config.steps <= config.endingTo)? (config.startingFrom + config.steps):config.endingTo;
 
-function updateStartEnd(oldEnd) {
-    start = oldEnd+1;
-    end = (oldEnd+1 + config.steps <= config.endingTo)? (oldEnd+1 + config.steps):config.endingTo;
-}
+mainTask(start, end);
+updateStartEnd(end);
 
 // main
 var linearBackoff = setInterval(function () {
@@ -32,6 +33,11 @@ var linearBackoff = setInterval(function () {
     updateStartEnd(end);
 }, config.linearBackoff);
 
+function updateStartEnd(oldEnd) {
+    console.log("Recalculating start and end");
+    start = oldEnd+1;
+    end = (oldEnd+1 + config.steps <= config.endingTo)? (oldEnd+1 + config.steps):config.endingTo;
+}
 
 function mainTask(start, end) {
     if (arg != -1) {
