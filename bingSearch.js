@@ -40,7 +40,7 @@ function updateStartEnd(oldEnd) {
 }
 
 function mainTask(start, end) {
-    if (arg != -1) {
+    if (arg == -1) {
         if (config.apiKey.length >= (argMax + 1)) {
             getDataFromBing(config.apiKey, 0, start, end, config.filename, "");
         }
@@ -57,9 +57,9 @@ function mainTask(start, end) {
     }
 }
 
-function getDataFromBing(apiKey, arg, start, end, filename, discriminator){
+function getDataFromBing(apiKey, offset, start, end, filename, discriminator){
 
-    var Bing = require('node-bing-api')({ accKey: apiKey[arg] });
+    var Bing = require('node-bing-api')({ accKey: apiKey[offset] });
     var lineReader = require('readline').createInterface({
         input: fs.createReadStream(filename)
     });
@@ -72,13 +72,13 @@ function getDataFromBing(apiKey, arg, start, end, filename, discriminator){
             var query = lineArray[1].replace(/(\r\n|\n|\r)/gm,"");
             Bing.web(query, {
                 top: 50,  // Number of results (max 50)
-                skip: 50 * arg,   // Skip first x results
+                skip: 50 * offset,   // Skip first x results
                 options: ['DisableLocationDetection', 'EnableHighlighting']
             }, function (error, res, body) {
-                counter[arg] = counter[arg]+1 || 1;
+                counter[offset] = counter[offset]+1 || 1;
                 if(typeof res != 'undefined' && res.statusCode == "503") {
-                    var message = code + "\t" + query + "\t" + arg + "\t ERR:SUBLIMIT " + res.statusMessage.replace(/(\r\n|\n|\r)/gm,"")+"\n";
-                    fs.appendFile(errorFileName+arg+discriminator+".txt", message, function (err) {
+                    var message = code + "\t" + query + "\t" + offset + "\t ERR:SUBLIMIT " + res.statusMessage.replace(/(\r\n|\n|\r)/gm,"")+"\n";
+                    fs.appendFile(errorFileName+offset+discriminator+".txt", message, function (err) {
                         if (err){
                             console.log('Damn, I can\'t event write on a file');
                         }
@@ -92,8 +92,8 @@ function getDataFromBing(apiKey, arg, start, end, filename, discriminator){
                         //console.log(code + " query " + query + " has given " + body.d.results.length + " results");
                         fs.appendFile('output/results.txt', print, function (err) {
                             if (err) {
-                                var message = code + "\t" + query + "\t" + arg + "\t FS error " + err + "\n";
-                                fs.appendFile(errorFileName+arg+discriminator+".txt", message, function (err) {
+                                var message = code + "\t" + query + "\t" + offset + "\t FS error " + err + "\n";
+                                fs.appendFile(errorFileName+offset+discriminator+".txt", message, function (err) {
                                     if (err){
                                         console.log('Damn, I can\'t event write on a file');
                                     }
@@ -107,8 +107,8 @@ function getDataFromBing(apiKey, arg, start, end, filename, discriminator){
                 }
                 else {
                     // bing errors like timeout
-                    var message = code + "\t" + query + "\t" + arg + "\t Bing API error " + error+"\n";
-                    fs.appendFile(errorFileName+arg+discriminator+".txt", message, function (err) {
+                    var message = code + "\t" + query + "\t" + offset + "\t Bing API error " + error+"\n";
+                    fs.appendFile(errorFileName+offset+discriminator+".txt", message, function (err) {
                         if (err){
                             console.log('Damn, I can\'t event write on a file');
                         }
@@ -118,8 +118,8 @@ function getDataFromBing(apiKey, arg, start, end, filename, discriminator){
             });
         } else {
             if(code==(config.endingTo+1)){
-                if(arg<argMax){
-                    getDataFromBing(apiKey, (arg+1), start, end);
+                if(offset<argMax){
+                    getDataFromBing(apiKey, (offset+1), start, end);
                 }
             }
         }
