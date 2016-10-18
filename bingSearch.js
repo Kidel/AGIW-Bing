@@ -27,6 +27,7 @@ function updateStartEnd(oldEnd) {
 
 // main
 var linearBackoff = setInterval(function () {
+    console.log("Started Linear Backoff");
     mainTask(start, end);
     updateStartEnd(end);
 }, config.linearBackoff);
@@ -35,7 +36,7 @@ var linearBackoff = setInterval(function () {
 function mainTask(start, end) {
     if (arg != -1) {
         if (config.apiKey.length >= (argMax + 1)) {
-            getDataFromBing(config.apiKey, 0, start, end);
+            getDataFromBing(config.apiKey, 0, start, end, config.filename, "");
         }
         else
             console.log("Not enough Bing API keys, insert more in config.js");
@@ -43,18 +44,18 @@ function mainTask(start, end) {
     else { // user override if script is launched with 1 argument
         if (arg <= config.apiKey.length) {
             argMax = arg;
-            getDataFromBing([config.apiKey[arg]], arg, start, end);
+            getDataFromBing([config.apiKey[arg]], arg, start, end, errorFileName +arg+".txt", "_new");
         }
         else
             console.log("Argument " + arg + " is not valid");
     }
 }
 
-function getDataFromBing(apiKey, arg, start, end){
+function getDataFromBing(apiKey, arg, start, end, filename, discriminator){
 
     var Bing = require('node-bing-api')({ accKey: apiKey[arg] });
     var lineReader = require('readline').createInterface({
-        input: fs.createReadStream(config.filename)
+        input: fs.createReadStream(filename)
     });
 
     lineReader.on('line', function (line) {
@@ -71,7 +72,7 @@ function getDataFromBing(apiKey, arg, start, end){
                 counter[arg] = counter[arg]+1 || 1;
                 if(typeof res != 'undefined' && res.statusCode == "503") {
                     var message = code + "\t" + query + "\t" + arg + "\t ERR:SUBLIMIT " + res.statusMessage.replace(/(\r\n|\n|\r)/gm,"")+"\n";
-                    fs.appendFile(errorFileName+arg+".txt", message, function (err) {
+                    fs.appendFile(errorFileName+arg+discriminator+".txt", message, function (err) {
                         if (err){
                             console.log('Damn, I can\'t event write on a file');
                         }
@@ -86,7 +87,7 @@ function getDataFromBing(apiKey, arg, start, end){
                         fs.appendFile('output/results.txt', print, function (err) {
                             if (err) {
                                 var message = code + "\t" + query + "\t" + arg + "\t FS error " + err + "\n";
-                                fs.appendFile(errorFileName+arg+".txt", message, function (err) {
+                                fs.appendFile(errorFileName+arg+discriminator+".txt", message, function (err) {
                                     if (err){
                                         console.log('Damn, I can\'t event write on a file');
                                     }
@@ -101,7 +102,7 @@ function getDataFromBing(apiKey, arg, start, end){
                 else {
                     // bing errors like timeout
                     var message = code + "\t" + query + "\t" + arg + "\t Bing API error " + error+"\n";
-                    fs.appendFile(errorFileName+arg+".txt", message, function (err) {
+                    fs.appendFile(errorFileName+arg+discriminator+".txt", message, function (err) {
                         if (err){
                             console.log('Damn, I can\'t event write on a file');
                         }
