@@ -1,5 +1,6 @@
 # AGIW-Bing
-A tool to help students with their second AGIW task.
+A tool to help students with their second AGIW task (web scraping). 
+It allows to search and download many keywords from Bing at once. 
 
 ## Config
 Duplicate config.js.example and rename the copy config.js, then edit it
@@ -20,7 +21,12 @@ module.exports = {
     linearBackoff: 1000 * 60 * 10 // 10 minutes
 };
 ```
-I suggest little steps of an interval of max 200 values, every and check for possible failures.
+Get your API keys from https://datamarket.azure.com/dataset/bing/search
+
+In order to use more then one API key successfully they have to be from different accounts. 
+Also be sure to manually generate your API key after you subscribe to Bing API, because the default one may give OAuth error. 
+
+Regarding steps and linearBackoff, I suggest you don't go past 200 steps, and those require to wait 10 minutes (or Bing will gets mad at you). You can lower your consecutive steps if you have a poor internet connection and  you want to avoid timeout errors, in that case you can also lower your linearBackiff value. Just be sure to stay in the 200/10 step per minute.
 
 ## Instructions
  * Install [Node.js](https://nodejs.org/) (you may need to restart).
