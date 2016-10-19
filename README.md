@@ -30,7 +30,7 @@ Regarding steps and linearBackoff, I suggest you don't go past 200 steps, and th
 
 ## Instructions
  * Install [Node.js](https://nodejs.org/) (you may need to restart).
- * Download this repository with the method you prefer. 
+ * Download this repository with the method you prefer and make config.js following the example. 
  * Open a terminal or cmd pointing inside the repository folder and type the following command:
  
  ```bash
