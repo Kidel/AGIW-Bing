@@ -1,5 +1,6 @@
 # AGIW-Bing
-A tool to help students with their second AGIW task.
+A tool to help students with their second AGIW task (web scraping). 
+It allows to search and download many keywords from Bing at once. 
 
 ## Config
 Duplicate config.js.example and rename the copy config.js, then edit it
@@ -20,29 +21,33 @@ module.exports = {
     linearBackoff: 1000 * 60 * 10 // 10 minutes
 };
 ```
-I suggest little steps of an interval of max 200 values, every and check for possible failures.
+Get your API keys from https://datamarket.azure.com/dataset/bing/search
+
+In order to use more then one API key successfully they have to be from different accounts. 
+Also be sure to manually generate your API key after you subscribe to Bing API, because the default one may give OAuth error. 
+
+Regarding steps and linearBackoff, I suggest you don't go past 200 steps, and those require to wait 10 minutes (or Bing will gets mad at you). You can lower your consecutive steps if you have a poor internet connection and  you want to avoid timeout errors, in that case you can also lower your linearBackiff value. Just be sure to stay in the 200/10 step per minute.
 
 ## Instructions
  * Install [Node.js](https://nodejs.org/) (you may need to restart).
- * Download this repository with the method you prefer. 
+ * Download this repository with the method you prefer and make config.js following the example. 
  * Open a terminal or cmd pointing inside the repository folder and type the following command:
  
  ```bash
  npm install
  ```
  
- * Once it's done you have to create a file called 'config.js' following the example given in 'config.js.example' (yes, you need a Bing Search API key, maybe from 2 different accounts).
- * Now to store the search results you need to type: 
+ * Once it's done installing the required packages you have to store the search results, so just type: 
  
  ```bash
  node bingSearch.js
  ```
- * Once you've run bingSearch.js in output folder you should have a file called 'results.txt' with all different results (if you did everything correctly with no repetitions) and as many files inputFileName_errors_X.txt as (results/50) for the errors. 
- * You can use as the error files as input to try and get what you missed for each file simply by using user override mode like that:
+ * Time depends on your config, by default around 90 minutes for 1800 keywords to search. Once it's done you should have a file called 'results.txt' in the output folder, with all different results (if you did everything correctly with no repetitions) and as many files inputFileName_errors_X.txt as (results/50) for the errors (by default only 0, 1 and 2). If you have less then expected it may just mean you got no errors. 
+ * You can use the error files as input to try and get what you missed simply by using 'user override mode' like that:
   ```bash
   node bingSearch.js X
   ```
-   Where 'X' is the number of your error file (0 for XXX_error_0.txt, 1 for XXX_error_1.txt and so on). No need to move the log files anymore (if you still get errors in '_new' log files just rename them removing '_new' and retry).
+   Where 'X' is the number of your error file (0 for XXX_error_0.txt, 1 for XXX_error_1.txt and so on). No need to move the log files to input. This may generate new error files with '_new' before the extension (if you still get errors in '_new' log files just rename them removing '_new' and retry user override with the corresponding number).
  * The script will automatically try a linear backoff waiting (by default) 10 minutes every 200 API uses. By the way **keep checking your log files to see if your keys have expired**.  It should take about 90 minutes for 1800 keywords (with default settings).
  * When you're confident about your output/results.txt (the file that stores the results) run the following:
  

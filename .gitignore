@@ -4,11 +4,9 @@ htmlFiles/
 input/
 config.js
 .idea
-logsGet.txt
-logsSearch.txt
-failed.txt
+logs*.txt
+failed*.txt
 npm-debug.log
-fails.txt
-failed_0.txt
-failed_1.txt
-failed_2.txt
+fails*.txt
+failed_*.txt
+*/deleteMe
