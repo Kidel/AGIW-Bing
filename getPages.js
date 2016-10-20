@@ -1,3 +1,4 @@
+require('events').EventEmitter.prototype._maxListeners = 0;
 var config = require('./config');
 
 var fs = require('graceful-fs');
@@ -12,7 +13,7 @@ function savePage(data, filename) {
         if (err) {
             console.log("FS ERROR for file " + filename + ": " + e.message);
         }
-        else console.log("OK FS file " + filename + "written correctly");
+        else console.log("OK FS file " + filename + " written correctly");
         data = null;
     });
 }
