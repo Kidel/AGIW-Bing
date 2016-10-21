@@ -2,6 +2,13 @@
 A tool to help students with their second AGIW task (web scraping). 
 It allows to search and download many keywords from Bing at once. 
 
+**Table of Contents**  
+
+- [AGIW-Bing](#)
+  - [Config](#)
+  - [Instructions](#)
+  - [Troubleshooting](#)
+
 ## Config
 Duplicate config.js.example and rename the copy config.js, then edit it
 ```javascript
@@ -25,6 +32,8 @@ Get your API keys from https://datamarket.azure.com/dataset/bing/search
 
 In order to use more then one API key successfully they have to be from different accounts. 
 Also be sure to manually generate your API key after you subscribe to Bing API, because the default one may give OAuth error. 
+
+As shown here: ![screen 1](screenshots/api_key.png "screen 1")
 
 Regarding steps and linearBackoff, I suggest you don't go past 200 steps, and those require to wait 10 minutes (or Bing will gets mad at you). You can lower your consecutive steps if you have a poor internet connection and  you want to avoid timeout errors, in that case you can also lower your linearBackiff value. Just be sure to stay in the 200/10 step per minute.
 
