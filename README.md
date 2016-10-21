@@ -2,12 +2,10 @@
 A tool to help students with their second AGIW task (web scraping). 
 It allows to search and download many keywords from Bing at once. 
 
-**Table of Contents**  
-
-- [AGIW-Bing](#agiw-bing)
-  - [Config](#config)
-  - [Instructions](#instructions)
-  - [Troubleshooting](#troubleshooting)
+#### Table of Contents  
+ - [Config](#config)
+ - [Instructions](#instructions)
+ - [Troubleshooting](#troubleshooting)
 
 ## Config
 Duplicate config.js.example and rename the copy config.js, then edit it
