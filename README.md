@@ -71,3 +71,14 @@ Regarding steps and linearBackoff, I suggest you don't go past 200 steps, and th
  * You'll have all the files you need in the output/ folder and in htmlFiles/ folder (probably several thousands of html files and a csv file with your surname).
 
 Have fun and report issues.
+
+
+## Troubleshooting
+ * If you get `FATAL ERROR: CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory` 
+   during getPages.js, try running it as shown below:
+ 
+ ```bash
+ node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 getPages.js >> logsGet.txt
+ ```
+ * Also you can make a backup copy of your surname.csv and delete the pages you already downloaded from the surname.csv you leave in the output folder, so the program will resume download from where it left. 
+ * If after many hours the execution has not ended but it's not even using CPU and Internet, it probably means it has ended. Check your last entry in the surname.csv file and see if that page has been downloaded to htmlFiles folder. If it's not a 0 byte file, then you can simply close the terminal to stop the execution. 
