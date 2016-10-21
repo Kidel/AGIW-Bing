@@ -4,10 +4,10 @@ It allows to search and download many keywords from Bing at once.
 
 **Table of Contents**  
 
-- [AGIW-Bing](#)
-  - [Config](#)
-  - [Instructions](#)
-  - [Troubleshooting](#)
+- [AGIW-Bing](#AGIW-Bing)
+  - [Config](#Config)
+  - [Instructions](#Instructions)
+  - [Troubleshooting](#Troubleshooting)
 
 ## Config
 Duplicate config.js.example and rename the copy config.js, then edit it
