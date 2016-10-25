@@ -11,7 +11,7 @@ var lineReader = require('readline').createInterface({
 function savePage(data, filename) {
     fs.writeFile(filename, data, function (err) {
         if (err) {
-            console.log("FS ERROR for file " + filename + ": " + e.message);
+            console.log("FS ERROR for file " + filename + ": " + err.message);
         }
         else console.log("OK FS file " + filename + " written correctly");
         data = null;
