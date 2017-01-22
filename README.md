@@ -1,5 +1,5 @@
 # AGIW-Bing
-A set of scripts for web scraping using Bing, made for the AGIW course at University. 
+A set of scripts for web scraping using Bing, made for the [AGIW](https://sites.google.com/site/roma3agiw/) course at University. 
 It allows to search and download many keywords from Bing at once. Requires one or more Bing API keys. 
 
 The scripts work in parallel and may require a lot of memory, but the configuration allows tuning. 
