@@ -5,10 +5,9 @@ It can search many keywords from Bing at once and download the results, saving t
 
 All the scripts work in parallel and may require a lot of memory, but the configuration allows tuning. See [config](#config) and [troubleshooting](#troubleshooting).
 
-#### Table of Contents  
- - [Config](#config)
- - [Instructions](#instructions)
- - [Troubleshooting](#troubleshooting)
+| Table of Contents |
+| --- |
+| <ul><li>[Config](#config)</li><li>[Instructions](#instructions)</li><li>[Troubleshooting](#troubleshooting)</li></ul> |
 
 ## Config
 Duplicate config.js.example and rename the copy config.js, then edit it
