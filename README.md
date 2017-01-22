@@ -3,7 +3,7 @@ A set of scripts for web scraping using Bing, made for the [AGIW](https://sites.
 
 It can search many keywords from Bing at once and download the results, saving them as html files. Requires one or more Bing API keys. 
 
-All the scripts work in parallel and may require a lot of memory, but the configuration allows tuning. 
+All the scripts work in parallel and may require a lot of memory, but the configuration allows tuning. See [config](#config) and [troubleshooting](#troubleshooting).
 
 #### Table of Contents  
  - [Config](#config)
